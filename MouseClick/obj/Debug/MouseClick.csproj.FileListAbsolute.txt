@@ -1,0 +1,8 @@
+F:\file\src\git\MouseClick\MouseClick\MouseClick\bin\Debug\MouseClick.exe
+F:\file\src\git\MouseClick\MouseClick\MouseClick\bin\Debug\MouseClick.pdb
+F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.csprojResolveAssemblyReference.cache
+F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.Properties.Resources.resources
+F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.csproj.GenerateResource.Cache
+F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.exe
+F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.pdb
+F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.Form1.resources
