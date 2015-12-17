@@ -1,3 +1,2 @@
 # MouseClick
-MouseClicker
-模拟鼠标点击
+就是用来模拟鼠标点击
