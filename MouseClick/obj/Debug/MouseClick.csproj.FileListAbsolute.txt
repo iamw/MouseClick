@@ -6,3 +6,5 @@ F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.csproj.Gen
 F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.exe
 F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.pdb
 F:\file\src\git\MouseClick\MouseClick\MouseClick\obj\Debug\MouseClick.Form1.resources
+F:\file\src\git\MouseClick\MouseClick\obj\Debug\MouseClick.exe
+F:\file\src\git\MouseClick\MouseClick\obj\Debug\MouseClick.pdb
