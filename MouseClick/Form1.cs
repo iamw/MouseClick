@@ -38,6 +38,7 @@ namespace MouseClick
         const int MOUSEEVENTF_MIDDLEUP = 0x0040;
         //标示是否采用绝对坐标 
         const int MOUSEEVENTF_ABSOLUTE = 0x8000;
+        
 
         Point p = new Point(1, 1);
         private void timer1_Tick(object sender, EventArgs e)
@@ -53,15 +54,14 @@ namespace MouseClick
             mouse_event(MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//移动到需要点击的位置
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//点击
             mouse_event(MOUSEEVENTF_LEFTUP | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//抬起            
-            /*
-            for (; ; )
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == (Keys.S | Keys.Control))
             {
-                mouse_event(MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//移动到需要点击的位置
-                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//点击
-                mouse_event(MOUSEEVENTF_LEFTUP | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//抬起
-                Thread.Sleep(100);
+                label3.Text = "X:" + p.X + " " + "Y:" + p.Y;
             }
-            */
         }
     }
 }
