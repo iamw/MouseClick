@@ -48,11 +48,18 @@ namespace MouseClick
             label1.Text = "X:" + p.X;
             label2.Text = "Y:" + p.Y;
         }
+        Thread t;
         private void button1_Click(object sender, EventArgs e)
+        {
+            t = new Thread(new ThreadStart(MouseClick));
+            t.IsBackground = true;
+            t.Start();            
+        }
+        private void MouseClick()
         {
             int x = int.Parse(textBox1.Text);
             int y = int.Parse(textBox2.Text);
-            for (int i=0; i<1000 ;i++ )
+            for (; ; )
             {
                 mouse_event(MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//移动到需要点击的位置
                 mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//点击
@@ -61,8 +68,8 @@ namespace MouseClick
                 {
                     break;
                 }
+                Thread.Sleep(50);
             }
-            MessageBox.Show("over");
         }
 
         KeyboardHook kh;
@@ -76,7 +83,7 @@ namespace MouseClick
         {
             if (e.KeyData == (Keys.E | Keys.Control))
             {
-                this.Close();
+                t.Abort();
             }
             if (e.KeyData == (Keys.S | Keys.Control))
             {
