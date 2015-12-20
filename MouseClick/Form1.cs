@@ -14,11 +14,18 @@ namespace MouseClick
 {
     public partial class Form1 : Form
     {
+        int ScreenHight;
+        int ScreenWidth;
         public Form1()
         {
             InitializeComponent();
+            ScreenHight = Screen.PrimaryScreen.Bounds.Height;
+            ScreenWidth = Screen.PrimaryScreen.Bounds.Width;
+            textBox4.Text = ScreenWidth.ToString();
+            textBox5.Text = ScreenHight.ToString();
         }
 
+        #region 引入动态链接库
         [DllImport("User32")]
         public extern static void GetCursorPos(ref Point lpPoint);
         [DllImport("User32")]
@@ -39,6 +46,7 @@ namespace MouseClick
         const int MOUSEEVENTF_MIDDLEUP = 0x0040;
         //标示是否采用绝对坐标 
         const int MOUSEEVENTF_ABSOLUTE = 0x8000;
+        #endregion
 
         int flag = 0;
         Point p = new Point(1, 1);
@@ -48,31 +56,100 @@ namespace MouseClick
             label1.Text = "X:" + p.X;
             label2.Text = "Y:" + p.Y;
         }
-        Thread t;
+        Thread t = null;
         private void button1_Click(object sender, EventArgs e)
         {
-            t = new Thread(new ThreadStart(MouseClick));
+            if (t != null)
+            {
+                t.Abort();
+            }
+            t = new Thread(new ThreadStart(MouseClicker));
             t.IsBackground = true;
             t.Start();            
         }
-        private void MouseClick()
+        private void MouseClicker()
         {
-            int x = int.Parse(textBox1.Text);
-            int y = int.Parse(textBox2.Text);
+            int x, y,z;
+            #region 检查文本框里是不是数字
             for (; ; )
             {
-                mouse_event(MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//移动到需要点击的位置
-                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//点击
-                mouse_event(MOUSEEVENTF_LEFTUP | MOUSEEVENTF_ABSOLUTE, x * 65535 / 1366, y * 65535 / 768, 0, 0);//抬起
+                try
+                {
+                    x = int.Parse(textBox1.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("坐标里混入了奇怪的东西！");
+                    return;
+                }
+                break;
+            }
+            for (; ; )
+            {
+                try
+                {
+                    y = int.Parse(textBox2.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("坐标里混入了奇怪的东西！");
+                    return;
+                }
+                break;
+            } 
+            for (; ; )
+            {
+                try
+                {
+                    z = int.Parse(textBox3.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("点击频率里混入了奇怪的东西！");
+                    return;
+                }
+                break;
+            }
+            for (; ; )
+            {
+                try
+                {
+                    ScreenWidth = int.Parse(textBox4.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("分辨率X里混入了奇怪的东西！");
+                    return;
+                }
+                break;
+            }
+            for (; ; )
+            {
+                try
+                {
+                    ScreenHight = int.Parse(textBox5.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("分辨率Y里混入了奇怪的东西！");
+                    return;
+                }
+                break;
+            }
+            #endregion
+            for (; ; )
+            {
+                mouse_event(MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE, x * 65535 / ScreenWidth, y * 65535 / ScreenHight, 0, 0);//移动到需要点击的位置
+                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE, x * 65535 / ScreenWidth, y * 65535 / ScreenHight, 0, 0);//点击
+                mouse_event(MOUSEEVENTF_LEFTUP | MOUSEEVENTF_ABSOLUTE, x * 65535 / ScreenWidth, y * 65535 / ScreenHight, 0, 0);//抬起
                 if (flag == 1)
                 {
                     break;
                 }
-                Thread.Sleep(50);
+                Thread.Sleep(z);
             }
         }
-
-        KeyboardHook kh;
+               KeyboardHook kh;
         private void Form1_Load(object sender, EventArgs e)
         {
             kh = new KeyboardHook();
@@ -81,13 +158,18 @@ namespace MouseClick
         }
         void kh_OnKeyDownEvent(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == (Keys.E | Keys.Control))
+            if (e.KeyData == Keys.Escape) //Esc 结束点击
             {
                 t.Abort();
             }
-            if (e.KeyData == (Keys.S | Keys.Control))
+            if (e.KeyData == (Keys.S | Keys.Control)) //Ctrl+S 储存坐标值
             {
-                label3.Text = "X:" + p.X + " " + "Y:" + p.Y;
+                textBox1.Text = p.X.ToString();
+                textBox2.Text = p.Y.ToString();
+            }
+            if (e.KeyData == (Keys.Space | Keys.Control)) //Ctrl+空格 开始点击 
+            {
+                button1.PerformClick();
             }
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
